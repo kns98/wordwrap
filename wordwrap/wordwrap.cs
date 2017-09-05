@@ -26,7 +26,7 @@ namespace WordWrap
             for (var i = 0; i < a.numOfPages; i++)
             {
                 Console.WriteLine("Page {0}:", i);
-                Console.WriteLine(a.page(i));
+                Console.WriteLine(a.Page(i));
             }
 
             //当前页
@@ -35,7 +35,7 @@ namespace WordWrap
             Console.WriteLine("\n");
 
             //前一页
-            Console.WriteLine(a.rPage(-1));
+            Console.WriteLine(a.RPage(-1));
         }
     }
 }
