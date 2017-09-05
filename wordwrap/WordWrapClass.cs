@@ -77,33 +77,33 @@ namespace WordWrap
             }
         }
     }
-    class HandyTextHandler
+    public class HandyTextHandler
     {
         /// <summary>
         /// 计算的书出的总页数
         /// </summary>
-        public int numOfPages = 0;
+        public int numOfPages { get; private set; }
         /// <summary>
         /// 当前页，用于获取相对页数，就public吧
         /// </summary>
-        public int curPage = 0;
+        public int curPage { get; private set; }
         /// <summary>
         /// 返回第n页，下标从0开始
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>
-        public string page(int n)
+        public string Page(int n)
         {
-            return Pages[curPage = n];
+            return pages[curPage = n];
         }
         /// <summary>
         /// 返回相对于curPage的第offset页，offset可正可负
         /// </summary>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public string rPage(int offset)
+        public string RPage(int offset)
         {
-            return Pages[curPage += offset];
+            return pages[curPage += offset];
         }
         /// <summary>
         /// content是你的书的全部内容，length是一行最多多少字符，lines是一页有几行
@@ -113,6 +113,8 @@ namespace WordWrap
         /// <param name="lines"></param>
         public HandyTextHandler(string content, int length, int lines)
         {
+            numOfPages = 0;
+            curPage = 0;
             content = Tool.WordWrap(content, length);
             int numOfLine = 0;
             foreach (var i in content)
@@ -131,11 +133,10 @@ namespace WordWrap
                 {
                     tmp = content.Length - cur;
                 }
-                Pages.Add(content.Substring(cur, tmp));
+                pages.Add(content.Substring(cur, tmp));
                 cur = end;
             }
         }
-        private List<string> Pages = new List<string>();
+        private List<string> pages = new List<string>();
     }
 }
-
