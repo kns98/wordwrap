@@ -88,6 +88,14 @@ namespace WordWrap
         /// </summary>
         public int curPage { get; private set; }
         /// <summary>
+        /// 翻页方式
+        /// </summary>
+        public enum FlippingMode
+        {
+            changeCurPage = 0,
+            unchangeCurPage
+        }
+        /// <summary>
         /// 返回第n页，下标从0开始
         /// </summary>
         /// <param name="n"></param>
@@ -100,10 +108,19 @@ namespace WordWrap
         /// 返回相对于curPage的第offset页，offset可正可负
         /// </summary>
         /// <param name="offset"></param>
+        /// <param name="mode"></param>
         /// <returns></returns>
-        public string RPage(int offset)
+        public string RelativePage(int offset, FlippingMode mode = FlippingMode.changeCurPage)
         {
-            return pages[curPage += offset];
+            if (mode == FlippingMode.changeCurPage)
+            {
+                return pages[curPage += offset];
+            }
+            else
+            {
+                return pages[curPage + offset];
+            }
+
         }
         /// <summary>
         /// content是你的书的全部内容，length是一行最多多少字符，lines是一页有几行
@@ -135,6 +152,11 @@ namespace WordWrap
                 }
                 pages.Add(content.Substring(cur, tmp));
                 cur = end;
+            }
+            if (numOfPages / 2 != 0)
+            {
+                numOfPages++;
+                pages.Add("");
             }
         }
         private List<string> pages = new List<string>();

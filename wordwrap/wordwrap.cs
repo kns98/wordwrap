@@ -19,7 +19,7 @@ namespace WordWrap
                 " this section by developers who want to get their knowledge into your hands " +
                 "directly. Because their length and format differs from the the User Manual’s" +
                 " normal style, we provide them to you as downloadable PDFs.";
-
+            
             HandyTextHandler a = new HandyTextHandler(str, 40, 5);
 
             //输出书的全部内容
