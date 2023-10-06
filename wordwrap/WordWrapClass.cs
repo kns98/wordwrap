@@ -159,6 +159,14 @@ namespace WordWrap
                 pages.Add("");
             }
         }
+
+        public HandyTextHandler(string content, int wrapLength): this(content,wrapLength,100)
+        {
+            
+        }
+
         private List<string> pages = new List<string>();
+        private string content;
+        private int wrapLength;
     }
 }

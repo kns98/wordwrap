@@ -1,41 +1,34 @@
 ﻿using System;
+using System.IO;
 using WordWrap;
 
 namespace WordWrap
 {
-    class demo
+    class Program
     {
+        const int WrapLength = 80;
+
         static void Main(string[] args)
         {
-            string str = "Our Expert Guides section draws together " +
-                "pieces of work written by area experts, and gives you detailed " +
-                "insight into features and topics.These documents tend to differ from " +
-                "the rest of Unity’s documentation both-in writing style and content. " +
-                "They represent some of the best developers providing their own insight " +
-                "into the workings of Unity and how to get the most out of itttttttttttttttttt. \n" +
-                "Some of these documents originated as blog posts, which we are collecting " +
-                "for convenience here to prevent them from being buried under the constant " +
-                "flow of new posts on our site. Others have been written specificially for" +
-                " this section by developers who want to get their knowledge into your hands " +
-                "directly. Because their length and format differs from the the User Manual’s" +
-                " normal style, we provide them to you as downloadable PDFs.";
-            
-            HandyTextHandler a = new HandyTextHandler(str, 40, 5);
+            args = new string[] { @"C:\Users\kevin\source\repos\kns98\resume" };
 
-            //输出书的全部内容
-            for (var i = 0; i < a.numOfPages; i++)
+            string directoryPath = args.Length > 0 ? args[0] : Directory.GetCurrentDirectory();
+
+            foreach (var filePath in Directory.EnumerateFiles(directoryPath, "*.html", SearchOption.AllDirectories))
             {
-                Console.WriteLine("Page {0}:", i);
-                Console.WriteLine(a.Page(i));
+                string content = File.ReadAllText(filePath);
+                HandyTextHandler wrappedTextHandler = new HandyTextHandler(content, WrapLength);
+
+                string wrappedContent = "";
+                for (var i = 0; i < wrappedTextHandler.numOfPages; i++)
+                {
+                    wrappedContent += wrappedTextHandler.Page(i);
+                    if (i != wrappedTextHandler.numOfPages - 1) // If not the last page, add a new line
+                        wrappedContent += "\n";
+                }
+
+                File.WriteAllText(filePath, wrappedContent);
             }
-
-            //当前页
-            Console.WriteLine("\n");
-            Console.WriteLine("Current page is: {0}", a.curPage);
-            Console.WriteLine("\n");
-
-            //前一页
-            Console.WriteLine(a.RPage(-1));
         }
     }
 }
